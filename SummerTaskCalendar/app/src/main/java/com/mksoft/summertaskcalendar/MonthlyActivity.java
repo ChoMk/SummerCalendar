@@ -3,6 +3,9 @@ package com.mksoft.summertaskcalendar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.mksoft.summertaskcalendar.DayDecorator.TodayDecorator;
@@ -28,6 +31,40 @@ public class MonthlyActivity extends AppCompatActivity {
         init();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //ActionBar 메뉴 클릭에 대한 이벤트 처리
+        int id = item.getItemId();
+        Intent intent;
+        switch (id){
+            case R.id.MonthlyButton:
+
+                break;
+            case R.id.WeeklyButton:
+                intent = new Intent(getApplicationContext(), WeeklyActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.DailyButton:
+                intent = new Intent(getApplicationContext(), DailyActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.WriteButton:
+                intent = new Intent(getApplicationContext(), WriteMemoActivity.class);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
     public void init(){
         materialCalendarView = (MaterialCalendarView)findViewById(R.id.MonthlycalendarView);
 
@@ -44,23 +81,6 @@ public class MonthlyActivity extends AppCompatActivity {
 
 
 
-        materialCalendarView.setOnDateChangedListener(new OnDateSelectedListener() {
-            @Override
-            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-
-                materialCalendarView.clearSelection();
-                //클릭시 년, 월, 일을 번들로 저장하고 Weekly Activity로 넘기자...
-
-                Bundle bundle = new Bundle();
-
-                bundle.putParcelable("CalendarDay", date);
-                Intent intent = new Intent(getApplicationContext(), WeeklyActivity.class);
-                intent.putExtra("BUNDLE", bundle);
-                startActivity(intent);
-
-
-            }
-        });
     }
 
 }

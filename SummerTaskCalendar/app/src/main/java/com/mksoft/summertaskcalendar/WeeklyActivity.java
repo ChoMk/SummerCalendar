@@ -2,6 +2,8 @@ package com.mksoft.summertaskcalendar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.mksoft.summertaskcalendar.DayDecorator.TodayDecorator;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
@@ -24,6 +26,40 @@ public class WeeklyActivity extends AppCompatActivity {
         setContentView(R.layout.weekly_activity);
         init();
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //ActionBar 메뉴 클릭에 대한 이벤트 처리
+        int id = item.getItemId();
+        Intent intent;
+        switch (id){
+            case R.id.MonthlyButton:
+                intent = new Intent(getApplicationContext(), MonthlyActivity.class);
+                finish();
+                startActivity(intent);
+                break;
+            case R.id.WeeklyButton:
+                break;
+            case R.id.DailyButton:
+                intent = new Intent(getApplicationContext(), DailyActivity.class);
+                finish();
+                startActivity(intent);
+                break;
+            case R.id.WriteButton:
+                intent = new Intent(getApplicationContext(), WriteMemoActivity.class);
+                finish();
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     public void init(){
         materialCalendarView = (MaterialCalendarView)findViewById(R.id.WeeklycalendarView);
 
@@ -33,34 +69,11 @@ public class WeeklyActivity extends AppCompatActivity {
                 .setMaximumDate(CalendarDay.from(2030, 11, 31)) // 달력의 끝
                 .setCalendarDisplayMode(CalendarMode.WEEKS)
                 .commit();
-        materialCalendarView.setCurrentDate((CalendarDay)getIntent().getBundleExtra("BUNDLE").getParcelable("CalendarDay"));
-        materialCalendarView.addDecorators(
-                todayDecorator);
+        materialCalendarView.addDecorators(todayDecorator);
         //오늘 날짜 표시
 
 
 
-        materialCalendarView.setOnDateChangedListener(new OnDateSelectedListener() {
-            @Override
-            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-                int Year = date.getYear();
-                int Month = date.getMonth();
-                int Day = date.getDay();
 
-                materialCalendarView.clearSelection();
-                //클릭시 년, 월, 일을 번들로 저장하고 Weekly Activity로 넘기자...
-
-                Bundle bundle = new Bundle();
-                bundle.putInt("Year", Year);
-                bundle.putInt("Month", Month);
-                bundle.putInt("Day", Day);
-
-                Intent intent = new Intent(getApplicationContext(), DailyActivity.class);
-                intent.putExtra("BUNDLE", bundle);
-                startActivity(intent);
-
-
-            }
-        });
     }
 }
