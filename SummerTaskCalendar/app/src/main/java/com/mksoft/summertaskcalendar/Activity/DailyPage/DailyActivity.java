@@ -1,4 +1,4 @@
-package com.mksoft.summertaskcalendar;
+package com.mksoft.summertaskcalendar.Activity.DailyPage;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,7 +6,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.mksoft.summertaskcalendar.Activity.MonthlyPage.MonthlyActivity;
+import com.mksoft.summertaskcalendar.Activity.WeeklyPage.WeeklyActivity;
+import com.mksoft.summertaskcalendar.Activity.WritePage.WriteMemoActivity;
+import com.mksoft.summertaskcalendar.R;
 
 import androidx.appcompat.app.AppCompatActivity;
 

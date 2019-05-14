@@ -1,19 +1,21 @@
-package com.mksoft.summertaskcalendar;
+package com.mksoft.summertaskcalendar.Activity.WeeklyPage;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.mksoft.summertaskcalendar.Activity.DailyPage.DailyActivity;
+import com.mksoft.summertaskcalendar.Activity.MonthlyPage.MonthlyActivity;
+import com.mksoft.summertaskcalendar.Activity.WritePage.WriteMemoActivity;
 import com.mksoft.summertaskcalendar.DayDecorator.TodayDecorator;
+import com.mksoft.summertaskcalendar.R;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
-import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import java.util.Calendar;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class WeeklyActivity extends AppCompatActivity {

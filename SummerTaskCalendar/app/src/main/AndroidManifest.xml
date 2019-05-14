@@ -19,22 +19,22 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".Activity.MainActivity">
 
         </activity>
-        <activity android:name=".MonthlyActivity">
+        <activity android:name=".Activity.MonthlyPage.MonthlyActivity">
 
         </activity>
-        <activity android:name=".WeeklyActivity"
-            android:parentActivityName=".MonthlyActivity">
+        <activity android:name=".Activity.WeeklyPage.WeeklyActivity"
+            android:parentActivityName=".Activity.MonthlyPage.MonthlyActivity">
 
         </activity>
-        <activity android:name=".DailyActivity"
-            android:parentActivityName=".MonthlyActivity">
+        <activity android:name=".Activity.DailyPage.DailyActivity"
+            android:parentActivityName=".Activity.MonthlyPage.MonthlyActivity">
 
         </activity>
-        <activity android:name=".WriteMemoActivity"
-            android:parentActivityName=".MonthlyActivity">
+        <activity android:name=".Activity.WritePage.WriteMemoActivity"
+            android:parentActivityName=".Activity.MonthlyPage.MonthlyActivity">
         </activity>
 
     </application>

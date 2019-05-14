@@ -1,7 +1,10 @@
-package com.mksoft.summertaskcalendar;
+package com.mksoft.summertaskcalendar.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.mksoft.summertaskcalendar.Activity.MonthlyPage.MonthlyActivity;
+import com.mksoft.summertaskcalendar.R;
 
 import androidx.appcompat.app.AppCompatActivity;
 

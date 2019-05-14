@@ -3,7 +3,7 @@ package com.mksoft.summertaskcalendar.Splash;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.mksoft.summertaskcalendar.MainActivity;
+import com.mksoft.summertaskcalendar.Activity.MainActivity;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
