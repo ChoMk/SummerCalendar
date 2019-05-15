@@ -1,12 +1,8 @@
 package com.mksoft.summertaskcalendar.Activity.WritePage;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -15,7 +11,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mksoft.summertaskcalendar.Activity.MainActivity;
 import com.mksoft.summertaskcalendar.Activity.MonthlyPage.MonthlyActivity;
 import com.mksoft.summertaskcalendar.OtherMethod.HideKeyboard;
 import com.mksoft.summertaskcalendar.R;
@@ -23,12 +18,10 @@ import com.mksoft.summertaskcalendar.Repo.Data.MemoData;
 import com.mksoft.summertaskcalendar.Repo.MemoReposityDB;
 
 import java.util.Calendar;
-import java.util.Date;
 
 import javax.inject.Inject;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import dagger.android.AndroidInjection;

@@ -1,6 +1,7 @@
 package com.mksoft.summertaskcalendar.Activity.MonthlyPage;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -8,6 +9,8 @@ import android.view.MenuItem;
 import com.mksoft.summertaskcalendar.Activity.DailyPage.DailyActivity;
 import com.mksoft.summertaskcalendar.Activity.WeeklyPage.WeeklyActivity;
 import com.mksoft.summertaskcalendar.Activity.WritePage.WriteMemoActivity;
+import com.mksoft.summertaskcalendar.App;
+import com.mksoft.summertaskcalendar.DayDecorator.EventDecorator;
 import com.mksoft.summertaskcalendar.DayDecorator.TodayDecorator;
 import com.mksoft.summertaskcalendar.R;
 import com.mksoft.summertaskcalendar.Repo.Data.OptionData;
@@ -17,6 +20,7 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.inject.Inject;
@@ -45,9 +49,13 @@ public class MonthlyActivity extends AppCompatActivity  implements HasSupportFra
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.monthly_activity);
+
         this.configureDagger();
         configureViewModel();
+
         init();
+        startPageSelect();
+        App.startFalg = 1;
     }
     @Override
     protected void onResume() {
@@ -62,7 +70,17 @@ public class MonthlyActivity extends AppCompatActivity  implements HasSupportFra
         memoViewModel.init();
 
         memoViewModel.getMemoDataLiveData().observe(this, memoDataLiveData -> {
-            //데이터 변경 처리
+            Calendar calendar = Calendar.getInstance();
+            ArrayList<CalendarDay> dates = new ArrayList<>();
+            for(int i =0; i<memoDataLiveData.size(); i++){
+                int year = Integer.parseInt("20"+memoDataLiveData.get(i).getScheduleYear());
+                int month = Integer.parseInt(memoDataLiveData.get(i).getScheduleMonth());
+                int dayy = Integer.parseInt(memoDataLiveData.get(i).getScheduleDay());
+                calendar.set(year,month-1,dayy);
+                CalendarDay day = CalendarDay.from(calendar);
+                dates.add(day);
+            }
+            materialCalendarView.addDecorator(new EventDecorator(Color.RED, dates, this));
         });
     }
     @Override
@@ -120,6 +138,24 @@ public class MonthlyActivity extends AppCompatActivity  implements HasSupportFra
         materialCalendarView.addDecorators(
                 todayDecorator);
         //오늘 날짜 표시
+
+
+
+    }
+    private void startPageSelect(){
+        if(App.startFalg != 0)
+            return;
+        Intent intent;
+        OptionData optionData = memoReposityDB.getOptionData();
+        if(optionData != null && optionData.getLastState() == 2){
+            intent = new Intent(this, WeeklyActivity.class);
+            startActivity(intent);
+        }else if(optionData != null &&optionData.getLastState() == 3){
+            intent = new Intent(this, DailyActivity.class);
+            startActivity(intent);
+        }
+        //페이지가 넘어갈 때 마다 DB에 마지막 페이지 상태를 저장하자
+        //그걸 불러와서 상태에 맞는 엑티비티 띄우자
 
 
 

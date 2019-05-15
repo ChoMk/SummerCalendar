@@ -3,7 +3,6 @@ package com.mksoft.summertaskcalendar.DI;
 
 
 import com.mksoft.summertaskcalendar.Activity.DailyPage.DailyActivity;
-import com.mksoft.summertaskcalendar.Activity.MainActivity;
 import com.mksoft.summertaskcalendar.Activity.MonthlyPage.MonthlyActivity;
 import com.mksoft.summertaskcalendar.Activity.WeeklyPage.WeeklyActivity;
 import com.mksoft.summertaskcalendar.Activity.WritePage.WriteMemoActivity;
@@ -18,9 +17,6 @@ import dagger.android.ContributesAndroidInjector;
 
 @Module
 public abstract class ActivityModule {
-    @ContributesAndroidInjector
-    abstract MainActivity contributeMainActivity();
-
     @ContributesAndroidInjector
     abstract MonthlyActivity contributeMonthlyActivity();
 
