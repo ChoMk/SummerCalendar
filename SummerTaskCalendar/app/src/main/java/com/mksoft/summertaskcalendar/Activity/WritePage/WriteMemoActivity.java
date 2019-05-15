@@ -16,17 +16,30 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mksoft.summertaskcalendar.Activity.MainActivity;
+import com.mksoft.summertaskcalendar.Activity.MonthlyPage.MonthlyActivity;
 import com.mksoft.summertaskcalendar.OtherMethod.HideKeyboard;
 import com.mksoft.summertaskcalendar.R;
+import com.mksoft.summertaskcalendar.Repo.Data.MemoData;
+import com.mksoft.summertaskcalendar.Repo.MemoReposityDB;
 
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.inject.Inject;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import dagger.android.AndroidInjection;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 
-public class WriteMemoActivity extends AppCompatActivity {
+public class WriteMemoActivity extends AppCompatActivity implements HasSupportFragmentInjector {
+    @Inject
+    DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
+    @Inject
+    MemoReposityDB memoReposityDB;
     EditText schedule;
     Button settingDate;
     TextView dateTextView;
@@ -50,10 +63,19 @@ public class WriteMemoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.write_memo_activity);
+        configureDagger();
         init();
         clickHideKeyboard();
         hideKeyboard();
     }
+    @Override
+    public DispatchingAndroidInjector<Fragment> supportFragmentInjector() {
+        return dispatchingAndroidInjector;
+    }
+    private void configureDagger(){
+        AndroidInjection.inject(this);
+    }
+
     public void init(){
         hideKeyboard = new HideKeyboard(this);
         writeRelativeLayout = findViewById(R.id.writeRelativeLayout);
@@ -103,6 +125,8 @@ public class WriteMemoActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(sDate == notChanged){
                     Toast.makeText(getApplicationContext(), "Set Date!!", Toast.LENGTH_SHORT).show();
+                }else if(schedule.getText().toString().length() == 0){
+                    Toast.makeText(getApplicationContext(), "Write schedule!!", Toast.LENGTH_SHORT).show();
                 }
                 else { saveData(); }
             }
@@ -112,6 +136,16 @@ public class WriteMemoActivity extends AppCompatActivity {
 
 
     public void saveData(){
+        MemoData memoData = new MemoData();
+        memoData.setScheduleDate(sDate);
+        memoData.setScheduleYear(sYear);
+        memoData.setScheduleMonth(sMonth);
+        memoData.setScheduleDay(sDay);
+        memoData.setScheduleMemo(schedule.getText().toString());
+        memoReposityDB.insertMemo(memoData);
+        Intent intent = new Intent(getApplicationContext(), MonthlyActivity.class);
+        finish();
+        startActivity(intent);
 
     }
     //여기는 텝 메뉴 없이 뒤로가기 누르면 Monthly 페이지로

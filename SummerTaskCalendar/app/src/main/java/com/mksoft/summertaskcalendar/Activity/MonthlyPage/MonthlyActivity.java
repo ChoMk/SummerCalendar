@@ -10,24 +10,67 @@ import com.mksoft.summertaskcalendar.Activity.WeeklyPage.WeeklyActivity;
 import com.mksoft.summertaskcalendar.Activity.WritePage.WriteMemoActivity;
 import com.mksoft.summertaskcalendar.DayDecorator.TodayDecorator;
 import com.mksoft.summertaskcalendar.R;
+import com.mksoft.summertaskcalendar.Repo.Data.OptionData;
+import com.mksoft.summertaskcalendar.Repo.MemoReposityDB;
+import com.mksoft.summertaskcalendar.ViewModel.MemoViewModel;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
 import java.util.Calendar;
 
-import androidx.appcompat.app.AppCompatActivity;
+import javax.inject.Inject;
 
-public class MonthlyActivity extends AppCompatActivity {
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
+import dagger.android.AndroidInjection;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
+
+public class MonthlyActivity extends AppCompatActivity  implements HasSupportFragmentInjector {
 
     MaterialCalendarView materialCalendarView;
     private final TodayDecorator todayDecorator = new TodayDecorator();
+    @Inject
+    DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
+    @Inject
+    MemoReposityDB memoReposityDB;
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
+    private MemoViewModel memoViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.monthly_activity);
+        this.configureDagger();
+        configureViewModel();
         init();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        OptionData optionData = new OptionData();
+        optionData.setId(0);
+        optionData.setLastState(1);
+        memoReposityDB.insertOption(optionData);
+    }
+    private void configureViewModel(){
+        memoViewModel = ViewModelProviders.of(this, viewModelFactory).get(MemoViewModel.class);
+        memoViewModel.init();
+
+        memoViewModel.getMemoDataLiveData().observe(this, memoDataLiveData -> {
+            //데이터 변경 처리
+        });
+    }
+    @Override
+    public DispatchingAndroidInjector<Fragment> supportFragmentInjector() {
+        return dispatchingAndroidInjector;
+    }
+    private void configureDagger(){
+        AndroidInjection.inject(this);
     }
 
     @Override
